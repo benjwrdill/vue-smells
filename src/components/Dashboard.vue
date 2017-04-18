@@ -1,13 +1,13 @@
 <template>
-  <div class="">
+  <div class="container">
     <h3>AutoTest Code Smells</h3>
     <button class="btn btn-danger btn-sm signout-btn" @click="signOut">Sign Out</button>
     <hr>
     <AddSmell />
     <hr>
-    <div class="col-md-12">
+    <div class="">
       <SmellItem
-        v-for="(smell_item, index) in this.$store.state.smells"
+        v-for="(smell_item, index) in orderedSmells"
         :smell="smell_item"
         key="index"
       />
@@ -19,6 +19,7 @@
 import { firebaseApp, smellsRef } from '../firebaseApp'
 import AddSmell from './AddSmell.vue'
 import SmellItem from './SmellItem.vue'
+import _ from 'lodash'
 
 export default {
   methods: {
@@ -39,6 +40,12 @@ export default {
       })
       this.$store.dispatch('setSmells', smells)
     })
+  },
+  computed: {
+    orderedSmells: function() {
+      let smells = this.$store.state.smells
+      return _.orderBy(smells, 'date', 'desc')
+    }
   }
 }
 </script>

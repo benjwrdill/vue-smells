@@ -1,6 +1,6 @@
 <template>
   <div class="panel panel-primary">
-    <div class="panel-heading" @click="activateForm">
+    <div class="panel-heading" @click="toggleForm">
       <h4 class="panel-title">Add a Smelly Location</h4>
     </div>
     <div class="panel-body" v-if="showForm">
@@ -14,8 +14,12 @@
           <input type="text" class="form-control" v-model="event.location">
         </div>
         <div class="form-group">
+          <label>Lines</label>
+          <input type="text" class="form-control" v-model="event.lines">
+        </div>
+        <div class="form-group">
           <label>Comments</label>
-          <input type="textbox" class="form-control" v-model="event.comments">
+          <textarea class="form-control" v-model="event.comments"></textarea>
         </div>
         <button class="btn-sm btn-primary" @click="addSmell">Submit</button>
       </div>
@@ -33,6 +37,7 @@ export default {
         date: '',
         smell_type: '',
         location: '',
+        lines: '',
         comments: '',
         email: ''
       },
@@ -42,10 +47,11 @@ export default {
   methods: {
     addSmell() {
       this.event.email = this.$store.state.user.email;
-      this.event.date = new Date().toISOString().slice(0,10)
+      this.event.date = new Date().toLocaleString()
       smellsRef.push(this.event)
+      this.toggleForm()
     },
-    activateForm() {
+    toggleForm() {
       this.showForm = !this.showForm
     }
   }
