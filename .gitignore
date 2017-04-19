@@ -6,4 +6,5 @@ yarn-error.log
 
 
 /src/firebaseConfig.js
-/public
+public/
+dist/
